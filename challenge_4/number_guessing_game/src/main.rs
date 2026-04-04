@@ -1,4 +1,5 @@
 use rand::prelude::*;
+use std::cmp::Ordering;
 use std::io::{self, Write};
 
 fn main() {
@@ -20,13 +21,13 @@ fn main() {
 
         match input.trim().parse::<i32>() {
             Ok(guess) => {
-                if guess == computer_guess {
-                    println!("You guessed the number!");
-                    break;
-                } else if guess < computer_guess {
-                    println!("Too low");
-                } else {
-                    println!("Too high");
+                match guess.cmp(&computer_guess) {
+                    Ordering::Equal => {
+                        println!("You guessed the number!");
+                        break;
+                    }
+                    Ordering::Less => println!("Too low"),
+                    Ordering::Greater => println!("Too high"),
                 }
                 input.clear();
             }
