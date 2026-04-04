@@ -38,7 +38,7 @@ fn main() {
                         // compare the guess with the computer's guess
                         Ordering::Equal => {
                             println!("You guessed the number!"); // if the guess is correct, print the message and break the loop
-                            println!("You guessed the number in {} attempts.", attempts); // print the number of attempts
+                            println!("You guessed the number in {} attempts.", attempts + 1); // print the number of attempts
                             break;
                         }
                         Ordering::Less => println!("Too low"), // if the guess is less than the computer's guess, print the message
