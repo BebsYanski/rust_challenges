@@ -32,7 +32,7 @@ impl Bank {
     }
 
     fn withdraw() {
-        // TODO: Decrease balance (but only if theu have enough money)
+        // TODO: Decrease balance (but only if the have enough money)
         todo!("Withdraw from Accounts");
     }
     fn check_balance() {
