@@ -57,8 +57,6 @@ fn read_f64(prompt: &str) -> f64 {
 
 impl BankAccount {
     fn create_account(owner: User, id: u32) -> Self {
-        // TODO: Add a new user with a bank account + initial balance
-
         BankAccount {
             balance: 0.0,
             id,
@@ -67,7 +65,6 @@ impl BankAccount {
     }
 
     fn deposit(&mut self, amount: f64) -> Result<(), String> {
-        // TODO: Increase the balance of a specific account
         // todo!("Deposit into Accounts");
         if amount <= 0.0 {
             return Err("Deposit amount must be positive.".to_string());
@@ -77,7 +74,6 @@ impl BankAccount {
     }
 
     fn withdraw(&mut self, amount: f64) -> Result<(), String> {
-        // TODO: Decrease balance (but only if the have enough money)
         // todo!("Withdraw from Accounts");
         if amount <= 0.0 {
             return Err(String::from("Withdrawal amount must be positive"));
@@ -89,7 +85,6 @@ impl BankAccount {
         Ok(())
     }
     fn check_balance(self) -> f64 {
-        // TODO: View the current status of an account
         return self.balance;
     }
 }
@@ -117,5 +112,36 @@ impl Bank {
 
     fn get_account_mut(&mut self, id: u32) -> Option<&mut BankAccount> {
         self.accounts.get_mut(&id)
+    }
+
+    fn transfer(&mut self, from: u32, to: u32, amount: f64) -> Result<(), String> {
+        if from == to {
+            return Err("Cannot transfer to the same account.".to_string());
+        }
+        if amount <= 0.0 {
+            return Err(String::from("Transfer amount must be positive."));
+        }
+
+        // Check funds first to avoid partial updates
+        {
+            let from_acc = self
+                .accounts
+                .get(&from)
+                .ok_or("Source account not found".to_string())?;
+
+            if from_acc.balance < amount {
+                return Err(String::from("Insufficient funds for transfer."));
+            }
+        }
+
+        // Ensure target exists before mutating
+        if !self.accounts.contains_key(&to) {
+            return Err("Destination account not found.".to_string());
+        }
+
+        // Perform Transfer
+        self.accounts.get_mut(&from).unwrap().balance -= amount;
+        self.accounts.get_mut(&to).unwrap().balance += amount;
+        Ok(())
     }
 }
