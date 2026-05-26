@@ -23,10 +23,13 @@ struct Bank {
     accounts: HashMap<u32, BankAccount>,
 }
 
+// Main Function
 fn main() {
     let mut bank: Bank = Bank::new(String::from("Ecobank"));
     println!("The Simple Banking System");
 }
+
+// Utility Functions
 fn read_line(prompt: &str) -> String {
     print!("{}", prompt);
     io::stdout().flush().unwrap();
